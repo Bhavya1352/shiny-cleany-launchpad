@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   Sparkles, Sofa, ChefHat, Bath, Building2, Truck, HardHat, Brush,
   ShieldCheck, Clock, BadgeIndianRupee, Users, Star, MapPin, Phone, MessageCircle,
-  ChevronDown, Check, Leaf, Award,
+  ChevronDown, Check, Leaf, Award, Home,
 } from "lucide-react";
 import { LeadForm } from "./LeadForm";
 import heroImg from "@/assets/hero-cleaner.jpg";
@@ -16,35 +16,59 @@ import afterSofa from "@/assets/after-sofa.jpg";
 /* ---------------- HERO ---------------- */
 export function Hero({ selectedService, setSelectedService }: { selectedService: string; setSelectedService: (s: string) => void }) {
   return (
-    <section id="top" className="relative bg-hero-gradient pt-10 md:pt-16 pb-12 md:pb-20">
+    <section id="top" className="relative bg-hero-gradient pt-10 md:pt-16 pb-12 md:pb-20 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 grid lg:grid-cols-12 gap-10 items-center">
-        <div className="lg:col-span-7">
-          <span className="inline-flex items-center gap-2 rounded-full bg-mint text-mint-foreground px-3 py-1.5 text-xs font-semibold">
-            <Leaf className="size-3.5" /> Trusted in Pune & PCMC since 2018
+        <div className="lg:col-span-7 flex flex-col items-start animate-fade-in">
+          <span className="inline-flex items-center gap-2 rounded-full bg-mint text-mint-foreground px-3.5 py-1.5 text-xs font-semibold shadow-soft hover:scale-102 transition-transform duration-300">
+            <img src="/brand/shinycleany-icon.png" alt="" className="size-4 animate-bounce" /> Trusted in Pune & PCMC since 2018
           </span>
-          <h1 className="mt-5 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-balance text-foreground">
-            A spotless home, <span className="text-primary">handled in hours.</span>
+          
+          <div className="mt-6 mb-3 flex items-center gap-3">
+            <img
+              src="/brand/shinycleany-logo.png"
+              alt="Shiny Cleany"
+              width={180}
+              height={40}
+              className="h-8 sm:h-9 w-auto filter drop-shadow-sm"
+            />
+            <div className="h-5 w-px bg-border/60" />
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.22em] text-primary/70">
+              PUNE'S PREMIUM CLEANERS
+            </span>
+          </div>
+
+          <h1 className="mt-4 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.08] text-balance text-foreground tracking-tight">
+            A spotless home, <span className="text-cta">handled in hours.</span>
           </h1>
-          <p className="mt-5 text-base sm:text-lg text-muted-foreground max-w-xl text-balance">
-            Background-verified professionals, eco-safe products, fixed pricing. Book your deep cleaning in 60 seconds — pay only after you're satisfied.
+          
+          <p className="mt-5 text-base sm:text-lg text-muted-foreground max-w-xl text-balance leading-relaxed">
+            Background-verified professionals, eco-safe plant-based products, and transparent fixed pricing. Book your deep cleaning in 60 seconds and pay only after you're satisfied.
           </p>
-          <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+
+          <div className="mt-7 flex flex-wrap gap-x-8 gap-y-3 text-sm border-l-2 border-primary/20 pl-4 py-1">
             {[
-              ["12,000+", "Happy homes"],
-              ["4.9★", "Google rating"],
-              ["100%", "Refund guarantee"],
+              ["12,000+", "Happy homes in Pune"],
+              ["4.9★", "Google-rated service"],
+              ["100%", "Satisfaction guarantee"],
             ].map(([k, v]) => (
               <div key={v} className="flex items-baseline gap-2">
-                <span className="font-display font-bold text-xl text-primary">{k}</span>
-                <span className="text-muted-foreground">{v}</span>
+                <span className="font-display font-black text-xl text-primary">{k}</span>
+                <span className="text-muted-foreground text-xs font-medium">{v}</span>
               </div>
             ))}
           </div>
+
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#quote" className="inline-flex items-center justify-center h-12 px-6 rounded-lg bg-cta text-cta-foreground font-semibold shadow-cta hover:brightness-105 transition">
+            <a
+              href="#quote"
+              className="inline-flex items-center justify-center h-12 px-6 rounded-lg bg-cta text-cta-foreground font-semibold shadow-cta hover:scale-105 active:scale-98 transition duration-300"
+            >
               Get Free Estimate
             </a>
-            <a href="tel:+919876543210" className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-lg border border-border bg-background font-semibold text-foreground hover:border-primary transition">
+            <a
+              href="tel:+919876543210"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-lg border border-border bg-background font-semibold text-foreground hover:border-primary hover:text-primary hover:scale-105 active:scale-98 transition duration-300"
+            >
               <Phone className="size-4" /> Call +91 98765 43210
             </a>
           </div>
@@ -52,15 +76,15 @@ export function Hero({ selectedService, setSelectedService }: { selectedService:
 
         <div className="lg:col-span-5">
           <div className="relative">
-            <div className="absolute -inset-3 bg-primary/10 rounded-3xl blur-2xl" aria-hidden />
-            <div id="quote" className="relative bg-card rounded-2xl shadow-elevated border border-border/60 p-5 sm:p-6">
+            <div className="absolute -inset-3 bg-primary/5 rounded-3xl blur-2xl animate-pulse" aria-hidden />
+            <div id="quote" className="relative bg-card/95 backdrop-blur-md rounded-2xl shadow-elevated border border-border/80 p-5 sm:p-6 transition hover:border-primary/30 duration-300">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="font-display font-bold text-xl text-foreground">Quick Estimate</h2>
                   <p className="text-xs text-muted-foreground mt-0.5">Reply in 10 mins • 9 AM – 9 PM</p>
                 </div>
-                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-mint text-mint-foreground px-2.5 py-1 text-[11px] font-semibold">
-                  <Sparkles className="size-3" /> Free
+                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-mint text-mint-foreground px-2.5 py-1 text-[11px] font-bold">
+                  <Sparkles className="size-3 animate-spin-slow" /> FREE
                 </span>
               </div>
               <LeadForm defaultService={selectedService} />
@@ -69,9 +93,16 @@ export function Hero({ selectedService, setSelectedService }: { selectedService:
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 mt-10">
-        <div className="relative rounded-3xl overflow-hidden shadow-elevated border border-border/60">
-          <img src={heroImg} alt="Shiny Cleany professional cleaning a modern Pune apartment" width={1280} height={1280} className="w-full h-[260px] sm:h-[360px] object-cover" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 mt-12 sm:mt-16">
+        <div className="relative rounded-3xl overflow-hidden shadow-elevated border border-border/60 group/hero-img">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10" />
+          <img
+            src={heroImg}
+            alt="Shiny Cleany professional cleaning a modern Pune apartment"
+            width={1280}
+            height={1280}
+            className="w-full h-[260px] sm:h-[420px] object-cover group-hover/hero-img:scale-[1.03] transition duration-700"
+          />
         </div>
         {/* hidden initial selector hook to satisfy lint */}
         <span className="hidden" aria-hidden onClick={() => setSelectedService(selectedService)} />
@@ -441,7 +472,7 @@ export function FinalCTA() {
   return (
     <section className="py-16 sm:py-24 bg-secondary/60">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <div className="relative rounded-3xl bg-primary text-primary-foreground p-8 sm:p-14 text-center overflow-hidden shadow-elevated">
+        <div className="relative rounded-3xl brand-blue-gradient text-primary-foreground p-8 sm:p-14 text-center overflow-hidden shadow-elevated">
           <div className="absolute -top-12 -right-12 size-60 rounded-full bg-mint/20 blur-3xl" aria-hidden />
           <div className="absolute -bottom-16 -left-12 size-60 rounded-full bg-cta/20 blur-3xl" aria-hidden />
           <div className="relative">
@@ -469,8 +500,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 grid md:grid-cols-3 gap-8 text-sm">
         <div>
           <div className="flex items-center gap-2">
-            <span className="grid place-items-center size-9 rounded-xl bg-primary text-primary-foreground"><Sparkles className="size-5" /></span>
-            <span className="font-display font-bold text-lg">Shiny<span className="text-primary">Cleany</span></span>
+            <img src="/brand/shinycleany-logo.png" alt="Shiny Cleany" width={210} height={50} className="h-11 w-auto" />
           </div>
           <p className="mt-3 text-muted-foreground">Pune & PCMC's most-loved professional home cleaning service. Trusted by 12,000+ households since 2018.</p>
         </div>
@@ -485,14 +515,19 @@ export function Footer() {
         <div>
           <div className="font-display font-semibold mb-3">Quick Links</div>
           <ul className="space-y-2 text-muted-foreground">
-            <li><a href="#services" className="hover:text-primary">Services</a></li>
-            <li><a href="#process" className="hover:text-primary">Our Process</a></li>
-            <li><a href="#reviews" className="hover:text-primary">Reviews</a></li>
-            <li><a href="#faq" className="hover:text-primary">FAQ</a></li>
+            <li><a href="/#services" className="hover:text-primary">Services</a></li>
+            <li><a href="/#process" className="hover:text-primary">Our Process</a></li>
+            <li><a href="/#reviews" className="hover:text-primary">Reviews</a></li>
+            <li><a href="/#faq" className="hover:text-primary">FAQ</a></li>
+            <li><a href="/privacy-policy" className="hover:text-primary">Privacy Policy</a></li>
+            <li><a href="/terms" className="hover:text-primary">Terms of Service</a></li>
+            <li><a href="/refund-cancellation" className="hover:text-primary">Refund & Cancellation</a></li>
+            <li><a href="/contact" className="hover:text-primary">Contact</a></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
+        <Home className="inline-block size-3.5 mr-1 text-cta" />
         © {new Date().getFullYear()} Shiny Cleany Services Pvt. Ltd. All rights reserved.
       </div>
     </footer>
