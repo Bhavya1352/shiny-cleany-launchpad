@@ -82,21 +82,20 @@ export function Hero({ selectedService, setSelectedService }: { selectedService:
 
 /* ---------------- TRUST STRIP ---------------- */
 export function TrustStrip() {
-  const items = [
-    [ShieldCheck, "Background-verified pros"],
-    [Leaf, "Eco-safe products"],
-    [BadgeIndianRupee, "Fixed transparent pricing"],
-    [Clock, "On-time guarantee"],
-    [Award, "ISO-trained team"],
-    [Users, "Insured service"],
+  const items: { Icon: typeof ShieldCheck; label: string }[] = [
+    { Icon: ShieldCheck, label: "Background-verified pros" },
+    { Icon: Leaf, label: "Eco-safe products" },
+    { Icon: BadgeIndianRupee, label: "Fixed transparent pricing" },
+    { Icon: Clock, label: "On-time guarantee" },
+    { Icon: Award, label: "ISO-trained team" },
+    { Icon: Users, label: "Insured service" },
   ];
   return (
     <section className="border-y border-border bg-secondary/50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {items.map(([Icon, label]) => (
-            <div key={label as string} className="flex items-center gap-2.5 text-sm text-foreground/80">
-              {/* @ts-expect-error icon component */}
+          {items.map(({ Icon, label }) => (
+            <div key={label} className="flex items-center gap-2.5 text-sm text-foreground/80">
               <Icon className="size-4 text-primary" />
               <span className="font-medium">{label}</span>
             </div>
@@ -106,6 +105,7 @@ export function TrustStrip() {
     </section>
   );
 }
+
 
 /* ---------------- SERVICES ---------------- */
 const SERVICES = [
