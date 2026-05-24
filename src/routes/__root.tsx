@@ -72,16 +72,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "ShinyCleany | Home & Office Cleaning in Pune" },
+      {
+        name: "description",
+        content:
+          "Book ShinyCleany for deep home cleaning, sofa shampooing, kitchen cleaning, bathroom cleaning, and office cleaning across Pune and PCMC.",
+      },
+      { name: "author", content: "ShinyCleany" },
+      { property: "og:title", content: "ShinyCleany | Home & Office Cleaning in Pune" },
+      {
+        property: "og:description",
+        content:
+          "Background-verified cleaning professionals, fixed pricing, and fast WhatsApp estimates for homes and offices in Pune.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://shinycleany.com/brand/shinycleany-logo-tagline.png" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@ShinyCleany" },
     ],
     links: [
+      { rel: "icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -99,6 +112,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          async
+          src="https://api.nayagrowth.com/capture/tracking-bootstrap.js"
+        />
+        <script
+          async
+          src="https://api.nayagrowth.com/capture/v1.js"
+          data-naya-connector="src_2NBAxTS43CK6iw"
+          data-naya-mode="manual"
+          data-naya-selector="#lead-capture-form"
+        />
       </head>
       <body>
         {children}

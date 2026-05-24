@@ -3,6 +3,33 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2, Send } from "lucide-react";
 
+const NAYA_CONNECTOR_KEY = "src_2NBAxTS43CK6iw";
+const NAYA_INTAKE_URL = `https://api.nayagrowth.com/api/landing/intake/${NAYA_CONNECTOR_KEY}`;
+
+type NayaCaptureResult = {
+  ok?: boolean;
+  status?: number;
+  data?: {
+    leadId?: string;
+    projectLeadId?: string;
+    status?: string;
+  };
+};
+
+declare global {
+  interface Window {
+    NayaGrowth?: {
+      captureLead?: (
+        payload: Record<string, unknown>,
+        context?: Record<string, unknown>,
+      ) => Promise<NayaCaptureResult>;
+    };
+    NayaGrowthTracking?: {
+      trackLeadConversion?: (payload?: Record<string, unknown>) => void;
+    };
+  }
+}
+
 const services = [
   "Deep Home Cleaning",
   "Bathroom Cleaning",
@@ -58,38 +85,102 @@ export function LeadForm({ defaultService, compact }: Props) {
       return;
     }
     setLoading(true);
-    const msg = `Hi Shiny Cleany! I'd like a quote.%0A%0A*Service:* ${form.service}%0A*Locality:* ${form.locality}%0A*Property:* ${form.property}%0A*When:* ${form.urgency}%0A*Name:* ${form.name}%0A*Phone:* ${form.phone}`;
-    setTimeout(() => {
+    const phone = `+91${form.phone}`;
+    const message = [
+      `Service: ${form.service}`,
+      `Locality: ${form.locality}`,
+      `Property: ${form.property}`,
+      `When: ${form.urgency}`,
+      `Name: ${form.name}`,
+      `Phone: ${phone}`,
+    ].join("\n");
+    const payload = {
+      fullName: form.name,
+      phone,
+      companyName: form.property,
+      service: form.service,
+      locality: form.locality,
+      propertyType: form.property,
+      urgency: form.urgency,
+      message,
+      consent: true,
+      sourceKind: "WEB_FORM",
+      sourcePage: typeof window !== "undefined" ? window.location.href : "",
+      sourceCta: "Get Free Estimate in 10 Minutes",
+      externalFormId: "shinycleany-quick-estimate",
+    };
+
+    try {
+      const result =
+        (await window.NayaGrowth?.captureLead?.(payload, {
+          formId: "lead-capture-form",
+          formName: "ShinyCleany Quick Estimate",
+          sourceCta: "Get Free Estimate in 10 Minutes",
+        })) ??
+        (await fetch(NAYA_INTAKE_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "omit",
+          body: JSON.stringify(payload),
+        }).then(async (response) => ({
+          ok: response.ok,
+          status: response.status,
+          data: await response.json().catch(() => undefined),
+        })));
+
+      if (!result.ok) {
+        throw new Error(`Lead capture failed with status ${result.status ?? "unknown"}.`);
+      }
+
+      window.NayaGrowthTracking?.trackLeadConversion?.({
+        leadId: result.data?.leadId ?? result.data?.projectLeadId,
+        service: form.service,
+        locality: form.locality,
+      });
+
+      const msg = encodeURIComponent(
+        `Hi Shiny Cleany! I'd like a quote.\n\n${message}`,
+      );
       window.open(`https://wa.me/919876543210?text=${msg}`, "_blank");
       toast.success("Request sent. Our team will call within 10 minutes.");
+    } catch (error) {
+      console.error(error);
+      toast.error("We could not submit the estimate request. Please call or WhatsApp us directly.");
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
 
   const inputCls =
     "w-full h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition";
 
   return (
-    <form onSubmit={onSubmit} className={compact ? "space-y-3" : "space-y-3.5"}>
+    <form
+      id="lead-capture-form"
+      name="ShinyCleany Quick Estimate"
+      onSubmit={onSubmit}
+      className={compact ? "space-y-3" : "space-y-3.5"}
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <select className={inputCls} value={form.service} onChange={set("service")}>
+        <select name="service" className={inputCls} value={form.service} onChange={set("service")}>
           {services.map((s) => <option key={s}>{s}</option>)}
         </select>
-        <select className={inputCls} value={form.locality} onChange={set("locality")}>
+        <select name="locality" className={inputCls} value={form.locality} onChange={set("locality")}>
           <option value="">Select locality</option>
           {localities.map((s) => <option key={s}>{s}</option>)}
         </select>
-        <select className={inputCls} value={form.property} onChange={set("property")}>
+        <select name="property" className={inputCls} value={form.property} onChange={set("property")}>
           {propertyTypes.map((s) => <option key={s}>{s}</option>)}
         </select>
-        <select className={inputCls} value={form.urgency} onChange={set("urgency")}>
+        <select name="urgency" className={inputCls} value={form.urgency} onChange={set("urgency")}>
           {urgencies.map((s) => <option key={s}>{s}</option>)}
         </select>
       </div>
-      <input className={inputCls} placeholder="Your name" value={form.name} onChange={set("name")} maxLength={60} />
+      <input name="fullName" className={inputCls} placeholder="Your name" value={form.name} onChange={set("name")} maxLength={60} />
       <div className="flex">
         <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-border bg-muted text-sm text-muted-foreground">+91</span>
         <input
+          name="phone"
           className={`${inputCls} rounded-l-none`}
           placeholder="10-digit mobile number"
           inputMode="numeric"

@@ -1,12 +1,13 @@
-import { Phone, Menu, X, Sparkles } from "lucide-react";
+import { Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const nav = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "Areas", href: "#areas" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Services", href: "/#services" },
+  { label: "Process", href: "/#process" },
+  { label: "Reviews", href: "/#reviews" },
+  { label: "Areas", href: "/#areas" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Header() {
@@ -14,13 +15,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <span className="grid place-items-center size-9 rounded-xl bg-primary text-primary-foreground shadow-soft">
-            <Sparkles className="size-5" />
-          </span>
-          <span className="font-display font-bold text-lg tracking-tight">
-            Shiny<span className="text-primary">Cleany</span>
-          </span>
+        <a href="/" className="flex items-center gap-3" aria-label="Shiny Cleany home">
+          <img
+            src="/brand/shinycleany-logo.png"
+            alt="Shiny Cleany"
+            width={210}
+            height={50}
+            className="h-10 w-auto"
+          />
         </a>
         <nav className="hidden md:flex items-center gap-7">
           {nav.map((n) => (
@@ -33,7 +35,7 @@ export function Header() {
           <a href="tel:+919876543210" className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-lg border border-border bg-background text-sm font-semibold text-foreground hover:border-primary hover:text-primary transition">
             <Phone className="size-4" /> +91 98765 43210
           </a>
-          <a href="#quote" className="hidden sm:inline-flex items-center h-10 px-4 rounded-lg bg-cta text-cta-foreground font-semibold text-sm shadow-cta hover:brightness-105 transition">
+          <a href="/#quote" className="hidden sm:inline-flex items-center h-10 px-4 rounded-lg bg-cta text-cta-foreground font-semibold text-sm shadow-cta hover:brightness-105 transition">
             Get Quote
           </a>
           <button className="md:hidden grid place-items-center size-10 rounded-lg border border-border" onClick={() => setOpen(!open)} aria-label="Menu">
